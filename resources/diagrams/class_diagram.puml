@@ -1,0 +1,41 @@
+@startuml
+
+class Customer {
+  - name : String
+  - email : String
+  - phone : String
+}
+
+class Address {
+  - street : String
+  - city : String
+  - state : String
+  - zipCode : String
+  - country : String
+}
+
+class Invoice {
+  - invoiceNumber : String
+  - totalAmount : double
+}
+
+class Item {
+  - name : String
+  - description : String
+  - unitPrice : double
+}
+
+Customer "1..1" --> "1..*" Invoice : owns 
+Customer "0..1" --> "1..1" Address : has 
+Invoice "0..1" --> "1..1" Address : billingAddress 
+
+Invoice "1..*" -- "0..*" Item 
+(Invoice, Item) .. InvoiceItem 
+
+class InvoiceItem {
+  - quantity : int
+  - totalPrice : double
+}
+
+
+@enduml
