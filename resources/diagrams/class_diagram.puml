@@ -1,4 +1,4 @@
-@startuml
+@startuml Digital Invoicing Class Diagram
 
 class Customer {
   - name : String
@@ -21,8 +21,7 @@ class Invoice {
 
 class Item {
   - name : String
-  - description : String
-  - unitPrice : double
+  - price : double
 }
 
 Customer "1..1" --> "1..*" Invoice : owns 
