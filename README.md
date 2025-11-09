@@ -43,7 +43,9 @@ digital-invoicing/
 ```
 
 ## Lancement
-
+- Avant tout vous devez avoir un SGBD `MySQL`
+- Cloner le projet ``git clone https://github.com/duvaldev203/digital-invoicing.git``
+- Executer le script ``./run-first.sh`` ou ``sh run-first.sh`` pour lancer votre application pour la premiere fois.
 
 ## Contact
 - E‑mail : [donfackduval@gmail.com](mailto:donfackduval@gmail.com)

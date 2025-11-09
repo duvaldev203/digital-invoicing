@@ -1,35 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { createBrowserRouter, redirect, RouterProvider } from 'react-router-dom';
+import './App.css';
+import Layout from './components/Layout';
+import Invoices from './pages/Invoices';
+import Customers from './pages/Customers';
+import Items from './pages/Items';
+import Addresses from './pages/Addresses';
+import ErrorPage from './pages/ErrorPage';
+import { AddressControllerApi, CustomerControllerApi, InvoiceControllerApi, ItemControllerApi } from './generated';
+
+const router = createBrowserRouter([
+  {
+    path: "",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        loader: () => redirect("/invoices"),
+      },
+      {
+        path: "/invoices",
+        element: <Invoices />,
+        loader: () => {
+          const api = new InvoiceControllerApi();
+          return api.index1();
+        }
+      },
+      {
+        path: "/customers",
+        element: <Customers />,
+        loader: () => {
+          const api = new CustomerControllerApi();
+          return api.index2();
+        }
+      },
+      {
+        path: "/items",
+        element: <Items />,
+        loader: () => {
+          const api = new ItemControllerApi();
+          return api.index();
+        }
+      },
+      {
+        path: "/addresses",
+        element: <Addresses />,
+        loader: async () => {
+          const api = new AddressControllerApi();
+          const response = await api.index3();
+
+          if (!response || !response.content) {
+            throw new Response("No addresses found", { status: 404 });
+          }
+
+          return response;
+        }
+      },
+    ],
+  },
+]);
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
