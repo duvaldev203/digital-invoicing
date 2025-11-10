@@ -12,6 +12,8 @@ public interface AddressService {
 
     public ResponseEntity<Page<AddressResponse>> index();
 
+    ResponseEntity<List<AddressResponse>> getNotLinked();
+
     public ResponseEntity<AddressResponse> show(Long id);
 
     public ResponseEntity<AddressResponse> create(AddressRequest address);

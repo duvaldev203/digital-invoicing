@@ -29,6 +29,12 @@ public class Address {
 //    @NotNull(message = "Pays : Ce champ est obligatoire")
     private String country;
 
+    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
+    private Invoice invoice;
+
+    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
+    private Customer customer;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;

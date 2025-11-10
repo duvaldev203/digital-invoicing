@@ -36,6 +36,14 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    public ResponseEntity<List<AddressResponse>> getNotLinked() {
+        List<Address> addresses = addressRepo.findByInvoiceIsNullAndCustomerIsNull();
+        List<AddressResponse> resp = addresses.stream().map(el->mapper.map(el, AddressResponse.class))
+                .toList();
+        return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<AddressResponse> show(Long id) {
         Address resp = addressRepo.findById(id).
                 orElseThrow(() -> new NotFoundException("L'Adresse", id));

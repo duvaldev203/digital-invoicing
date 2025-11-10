@@ -33,9 +33,9 @@ const CustomerModal: React.FC<CustomerModalProps> = (props: CustomerModalProps) 
   const api = new CustomerControllerApi();
 
   const fetchAddresses = () => {
-    addressApi.index3()
+    addressApi.getNotLinked()
       .then((resp) => {
-        if (resp.content) setAddresses(resp.content!);
+        if (resp) setAddresses(resp);
       })
       .catch((err) => console.error("Erreur de recuperation des Adresses : ", err));
   }

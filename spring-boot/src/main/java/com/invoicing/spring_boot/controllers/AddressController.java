@@ -25,6 +25,11 @@ public class AddressController {
     public ResponseEntity<Page<AddressResponse>> index() {
         return service.index();
     }
+
+    @GetMapping("/not-linked")
+    public ResponseEntity<List<AddressResponse>> getNotLinked() {
+        return service.getNotLinked();
+    }
     
     @GetMapping("/{id}")
     public ResponseEntity<AddressResponse> show(@PathVariable Long id) {

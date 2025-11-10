@@ -58,9 +58,9 @@ const InvoiceModal: React.FC<InvoiceModalProps> = (props: InvoiceModalProps) => 
   const customerApi = new CustomerControllerApi();
 
   const fetchData = () => {
-    addressApi.index3()
+    addressApi.getNotLinked()
       .then((resp) => {
-        if (resp.content) setAddresses(resp.content!);
+        if (resp) setAddresses(resp);
       })
       .catch((err) => console.error("Erreur de recuperation des Adresses : ", err));
     customerApi.index2()
@@ -338,6 +338,7 @@ const InvoiceModal: React.FC<InvoiceModalProps> = (props: InvoiceModalProps) => 
                             </TableCell>
                             <TableCell width={10}>
                               <TextField
+                                type="number"
                                 required
                                 size="small"
                                 // label="Quantité"
@@ -358,7 +359,6 @@ const InvoiceModal: React.FC<InvoiceModalProps> = (props: InvoiceModalProps) => 
                                     ...formValues,
                                     invoiceItems: newValue,
                                   })
-                                  console.log("Changed item quantity: ", formValues.invoiceItems);
                                 }}
                               />
                             </TableCell>

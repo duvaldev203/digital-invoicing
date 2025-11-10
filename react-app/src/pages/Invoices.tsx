@@ -36,8 +36,6 @@ const Invoices = () => {
 
   const api = new InvoiceControllerApi();
 
-
-
   const handleOpenInvoiceModal = () => {
     setOpenModal(true);
   };
@@ -68,7 +66,7 @@ const Invoices = () => {
     (inv: InvoiceResponse) =>
       inv.invoiceNumber!.toLowerCase().includes(query.toLowerCase()) ||
       inv.customer!.name!.toLowerCase().includes(query.toLowerCase()) ||
-      inv.createdAt!.toDateString().toLowerCase().includes(query.toLowerCase())
+      inv.createdAt!.toLocaleDateString("fr-FR", { dateStyle: "medium" }).toLowerCase().includes(query.toLowerCase())
   ) : [];
 
   const handleChangePage = (_: unknown, newPage: number) => {
@@ -177,7 +175,7 @@ const Invoices = () => {
               <TableRow key={inv.invoiceNumber} hover>
                 <TableCell>{inv.invoiceNumber}</TableCell>
                 <TableCell>{inv.customer?.name}</TableCell>
-                <TableCell>{inv.createdAt?.toDateString()}</TableCell>
+                <TableCell>{inv.createdAt?.toLocaleDateString("fr-FR", { dateStyle: "medium" })}</TableCell>
                 <TableCell align="right">{inv.totalAmount?.toFixed(2)}</TableCell>
                 <TableCell align="center">
                   <Tooltip title="Imprimer / Télécharger PDF">
