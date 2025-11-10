@@ -3,6 +3,7 @@ package com.invoicing.spring_boot.services;
 import com.invoicing.spring_boot.config.AppConstants;
 import com.invoicing.spring_boot.dto.CustomerRequest;
 import com.invoicing.spring_boot.dto.CustomerResponse;
+import com.invoicing.spring_boot.dto.CustomResponse;
 import com.invoicing.spring_boot.exceptions.NotFoundException;
 import com.invoicing.spring_boot.models.Customer;
 import com.invoicing.spring_boot.repositories.CustomerRepo;
@@ -63,7 +64,11 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Le Client", id));
         customerRepo.delete(customer);
-        return ResponseEntity.noContent().build();
+        CustomResponse resp = new CustomResponse(
+                "Client supprimée.",
+                new java.sql.Timestamp(System.currentTimeMillis())
+        );
+        return new ResponseEntity(resp, HttpStatus.OK);
     }
 
     @Override

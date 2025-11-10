@@ -3,6 +3,7 @@ package com.invoicing.spring_boot.services;
 import com.invoicing.spring_boot.config.AppConstants;
 import com.invoicing.spring_boot.dto.ItemRequest;
 import com.invoicing.spring_boot.dto.ItemResponse;
+import com.invoicing.spring_boot.dto.CustomResponse;
 import com.invoicing.spring_boot.exceptions.NotFoundException;
 import com.invoicing.spring_boot.models.Item;
 import com.invoicing.spring_boot.repositories.ItemRepo;
@@ -63,7 +64,11 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Le Produit", id));
         itemRepo.delete(item);
-        return ResponseEntity.noContent().build();
+        CustomResponse resp = new CustomResponse(
+                "Produit supprimée.",
+                new java.sql.Timestamp(System.currentTimeMillis())
+        );
+        return new ResponseEntity(resp, HttpStatus.OK);
     }
 
     @Override

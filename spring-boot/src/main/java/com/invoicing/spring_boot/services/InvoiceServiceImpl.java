@@ -4,6 +4,7 @@ import com.invoicing.spring_boot.config.AppConstants;
 import com.invoicing.spring_boot.dto.InvoiceItemRequest;
 import com.invoicing.spring_boot.dto.InvoiceRequest;
 import com.invoicing.spring_boot.dto.InvoiceResponse;
+import com.invoicing.spring_boot.dto.CustomResponse;
 import com.invoicing.spring_boot.exceptions.NotFoundException;
 import com.invoicing.spring_boot.models.Invoice;
 import com.invoicing.spring_boot.models.InvoiceItem;
@@ -146,8 +147,12 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public ResponseEntity<?> delete(String id) {
         Invoice req = invoiceRepo.findById(id).
-                orElseThrow(() -> new NotFoundException("Le Facture de numero " + id));
+                orElseThrow(() -> new NotFoundException("La Facture de numero " + id));
         invoiceRepo.delete(req);
-        return ResponseEntity.noContent().build();
+        CustomResponse resp = new CustomResponse(
+                "Facture supprimée.",
+                new java.sql.Timestamp(System.currentTimeMillis())
+        );
+        return new ResponseEntity(resp, HttpStatus.OK);
     }
 }

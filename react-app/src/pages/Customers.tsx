@@ -84,17 +84,15 @@ const Customers = () => {
     setLoading(true);
 
     api.delete2({ id: selectedCustomer!.id! })
-    onSuccess();
-    /**Rechercher l'id dans customers s'il existe alors echec sinon success */
-
-    if (customers?.content?.findIndex(cust => cust.id === selectedCustomer!.id!) !== -1) {
-      console.error("Error deleting customer: ", selectedCustomer);
-    } else {
-      console.log("Customer deleted: ", selectedCustomer);
-      handleCloseModal();
-    }
-    setLoading(false);
-    /**echec */
+      .then((resp) => {
+        console.log("Response: ", resp)
+        onSuccess();
+        handleCloseModal();
+      })
+      .catch((err) => {
+        console.error("Error deleting address: ", err);
+      })
+      .finally(() => setLoading(false));
   };
 
   return (

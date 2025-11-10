@@ -99,26 +99,29 @@ const DeleteModal = (props: DeleteModalProps) => {
                     >
                         Cancel
                     </Box>
-                    <Box
-                        component="button"
-                        sx={{
-                            bgcolor: "error.main",
-                            color: "white",
-                            border: "none",
-                            borderRadius: 1,
-                            px: 2,
-                            py: 1,
-                            cursor: "pointer",
-                            "&:hover": {
-                                bgcolor: "error.dark"
-                            }
-                        }}
-                        onClick={() => {
-                            props.onConfirm();
-                        }}
-                    >
-                        {props.loading ? <CircularProgress size={24} /> : "Supprimer"}
-                    </Box>
+                    {props.loading ?
+                        <CircularProgress color="error" size={24} />
+                        : <Box
+                            component="button"
+                            sx={{
+                                bgcolor: "error.main",
+                                color: "white",
+                                border: "none",
+                                borderRadius: 1,
+                                px: 2,
+                                py: 1,
+                                cursor: "pointer",
+                                "&:hover": {
+                                    bgcolor: "error.dark"
+                                }
+                            }}
+                            onClick={() => {
+                                props.onConfirm();
+                            }}
+                        >
+                            Supprimer
+                        </Box>
+                    }
                 </Box>
             </Box>
         </Modal>

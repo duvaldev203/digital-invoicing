@@ -84,22 +84,19 @@ const Invoices = () => {
     setLoading(true);
 
     api.delete1({ invoiceNumber: selectedInvoice!.invoiceNumber! })
-    onSuccess();
-    /**Rechercher l'id dans invoices s'il existe alors echec sinon success */
-
-    if (invoices?.content?.findIndex(inv => inv.invoiceNumber === selectedInvoice!.invoiceNumber!) !== -1) {
-      console.error("Error deleting invoice: ", selectedInvoice);
-    } else {
-      console.log("Invoice deleted: ", selectedInvoice);
-      handleCloseModal();
-    }
-    setLoading(false);
-    /**echec */
+      .then((resp) => {
+        console.log("Response: ", resp)
+        onSuccess();
+        handleCloseModal();
+      })
+      .catch((err) => {
+        console.error("Error deleting address: ", err);
+      })
+      .finally(() => setLoading(false));
   };
 
-  const handlePrint = (id: string) => {
-    // Appelle l'endpoint PDF ; adapter selon votre backend (token, base URL...)
-    window.open(`/api/invoices/${id}/pdf`, "_blank");
+  const handlePrint = (invoice: InvoiceResponse) => {
+    console.log("Invoice to print: ", invoice)
   };
 
   return (
@@ -181,10 +178,10 @@ const Invoices = () => {
                 <TableCell>{inv.invoiceNumber}</TableCell>
                 <TableCell>{inv.customer?.name}</TableCell>
                 <TableCell>{inv.createdAt?.toDateString()}</TableCell>
-                <TableCell align="right">{inv.totalAmount?.toFixed(2)} €</TableCell>
+                <TableCell align="right">{inv.totalAmount?.toFixed(2)}</TableCell>
                 <TableCell align="center">
                   <Tooltip title="Imprimer / Télécharger PDF">
-                    <IconButton size="small" onClick={() => handlePrint(inv.invoiceNumber!)}>
+                    <IconButton size="small" onClick={() => handlePrint(inv)}>
                       <Print />
                     </IconButton>
                   </Tooltip>

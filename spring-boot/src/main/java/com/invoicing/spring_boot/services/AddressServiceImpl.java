@@ -3,6 +3,7 @@ package com.invoicing.spring_boot.services;
 import com.invoicing.spring_boot.config.AppConstants;
 import com.invoicing.spring_boot.dto.AddressRequest;
 import com.invoicing.spring_boot.dto.AddressResponse;
+import com.invoicing.spring_boot.dto.CustomResponse;
 import com.invoicing.spring_boot.exceptions.NotFoundException;
 import com.invoicing.spring_boot.models.Address;
 import com.invoicing.spring_boot.repositories.AddressRepo;
@@ -63,7 +64,11 @@ public class AddressServiceImpl implements AddressService {
         Address address = addressRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Addresse", id));
         addressRepo.delete(address);
-        return ResponseEntity.noContent().build();
+        CustomResponse resp = new CustomResponse(
+                "Addresse supprimée.",
+                new java.sql.Timestamp(System.currentTimeMillis())
+        );
+        return new ResponseEntity(resp, HttpStatus.OK);
     }
 
     @Override

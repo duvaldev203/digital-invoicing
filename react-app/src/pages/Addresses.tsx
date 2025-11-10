@@ -93,17 +93,15 @@ const Addresses = () => {
     setLoading(true);
 
     api.delete3({ id: selectedAddress!.id! })
-    onSuccess();
-    /**Rechercher l'id dans addresses s'il existe alors echec sinon success */
-
-    if (addresses?.content?.findIndex(addr => addr.id === selectedAddress!.id!) !== -1) {
-      console.error("Error deleting address: ", selectedAddress);
-    } else {
-      console.log("Address deleted: ", selectedAddress);
-      handleCloseModal();
-    }
-    setLoading(false);
-    /**echec */
+      .then((resp) => {
+        console.log("Response: ", resp)
+        onSuccess();
+        handleCloseModal();
+      })
+      .catch((err) => {
+        console.error("Error deleting address: ", err);
+      })
+      .finally(() => setLoading(false));
   };
 
   return (

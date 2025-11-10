@@ -94,17 +94,15 @@ const Items = () => {
     setLoading(true);
 
     api._delete({ id: selectedItem!.id! })
-    onSuccess();
-    /**Rechercher l'id dans items s'il existe alors echec sinon success */
-
-    if (items?.content?.findIndex(item => item.id === selectedItem!.id!) !== -1) {
-      console.error("Error deleting item: ", selectedItem);
-    } else {
-      console.log("Item deleted: ", selectedItem);
-      handleCloseModal();
-    }
-    setLoading(false);
-    /**echec */
+      .then((resp) => {
+        console.log("Response: ", resp)
+        onSuccess();
+        handleCloseModal();
+      })
+      .catch((err) => {
+        console.error("Error deleting address: ", err);
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleReset = () => {
