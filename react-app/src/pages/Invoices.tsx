@@ -20,6 +20,7 @@ import { InvoiceControllerApi, type InvoiceResponse, type PageInvoiceResponse } 
 import { Delete, ModeEdit, Print } from "@mui/icons-material";
 import DeleteModal from "../components/modals/DeleteModal";
 import InvoiceModal from "../components/modals/InvoiceModal";
+import PrintInvoiceModal from "../components/modals/PrintInvoiceModal";
 
 const Invoices = () => {
   const data = useLoaderData<PageInvoiceResponse>();
@@ -30,6 +31,7 @@ const Invoices = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openPrintModal, setOpenPrintModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
   console.log("Not used variable: ", loading);
@@ -43,6 +45,7 @@ const Invoices = () => {
   const handleCloseModal = () => {
     setSelectedInvoice(undefined);
     setOpenDeleteModal(false);
+    setOpenPrintModal(false);
     setOpenModal(false);
   };
 
@@ -94,7 +97,9 @@ const Invoices = () => {
   };
 
   const handlePrint = (invoice: InvoiceResponse) => {
-    console.log("Invoice to print: ", invoice)
+    console.log("Invoice to print: ", invoice);
+    setSelectedInvoice(invoice)
+    setOpenPrintModal(true)
   };
 
   return (
@@ -143,6 +148,11 @@ const Invoices = () => {
           </Button>
         </Box>
       </Box>
+      {openPrintModal && <PrintInvoiceModal
+        invoice={selectedInvoice!}
+        opened={openPrintModal}
+        onClose={handleCloseModal}
+      />}
       <InvoiceModal
         invoice={selectedInvoice}
         opened={openModal}
